@@ -9,3 +9,6 @@
 
 # Allow BBO-function notebooks at repo root
 !BBO-function*.ipynb
+
+# Allow Input_output_data npy files
+!Input_output_data/**/*.npy
