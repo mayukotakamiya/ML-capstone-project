@@ -23,14 +23,49 @@ The objective is to maximise the output of each unknown function while not being
 
 5. Technical Approach
    
-Round 1 – Geometry-Based Exploration
+This project follows an iterative black-box optimisation (BBO) strategy, where the approach evolves as more data becomes available. The core principle is to balance exploration (learning the search space) and exploitation (refining promising regions), supported by surrogate modelling techniques.
 
-In the first round, I implemented a distance-based heuristic, which is exploitation as sample near the best observed point and exploration: sample far from existing points. Candidate points were generated within observed bounds and scored using a weighted combination of proximity to the best point and distance from previous samples. This provided structured sampling while maintaining diversity.
+Queries 1–2: Heuristic Exploration
+In the initial stages, I relied on simple heuristics:
+Random and space-filling sampling
+Distance-based exploration to cover the domain
+Light exploitation around high-performing points
+This phase prioritised broad exploration, as little was known about the function structure.
 
-Round 2 – Adaptive Weighting
+Query 3: Structured Search with SVM Concepts
+As more data became available, I introduced ideas inspired by Support Vector Machines (SVMs):
+Framing the problem as “good vs bad” classification
+Identifying boundary regions between high and low outputs
+Sampling near these boundaries to improve learning efficiency
+This improved the ability to focus on informative regions rather than purely random exploration.
 
-After receiving new outputs, I analysed improvement magnitude (by comparing the old best point vs new best point),  output range and standard deviation. If improvement was large compared to the output range or standard deviation, I increased exploitation weight. If improvement stagnated, I increased exploration weight. This introduced adaptive behaviour rather than fixed heuristics.
+Query 4–5: Neural Network Surrogate Models
+From Query 4 onwards, I introduced neural network surrogate models to approximate the unknown functions:
+Used MLPRegressor to model nonlinear relationships
+Generated candidate points and selected those with highest predicted outputs
+Combined local refinement (around best points) with global exploration
+Inspired by deep learning concepts:
+Feature hierarchies → capturing interactions between inputs
+Backpropagation → learning how outputs change with inputs
+Architectural trade-offs → balancing model complexity and overfitting
 
-My strategy evolves dynamically. In the first query, I used a balanced search (exploitation: exploration = 6:4). In the second query, depending on the improvement on the best point, I adjusted the ratio of exploitation and exploration as explained above.
+Query 6: CNN-Inspired Trade-offs
+In the latest stage, I refined the approach using ideas from convolutional neural networks (CNNs):
+Depth vs efficiency
+→ Use simple methods for low-dimensional functions (1–2) and more expressive models for higher dimensions (6–8)
+Generalisation vs overfitting
+→ Maintain exploration to avoid overfitting to known regions
+Complexity vs clarity
+→ Match model complexity to problem difficulty
+This resulted in function-specific strategies:
+Low dimensions → simple heuristics
+Mid dimensions → small neural networks
+High dimensions → more expressive surrogate models with stronger exploration
 
-As the dataset grows, I may incorporate some new approaches such as Gaussian Process regression, Bayesian optimisation acquisition functions (Expected Improvement), and local quadratic approximations. The goal is to move from heuristic search toward probabilistic modelling.
+Across all queries, the optimisation pipeline follows:
+1.Load observed data (inputs and outputs)
+2.Train surrogate model (if applicable)
+3.Generate candidate points -Local (around best point) and Global (across domain)
+4.Score candidates using predicted output (exploitation) and distance from known points (exploration)
+5.Select next query point
+6.Submit and update dataset
