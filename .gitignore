@@ -1,0 +1,11 @@
+# Ignore everything by default
+*
+
+# But don't ignore this gitignore
+!.gitignore
+
+# Keep directories so unignore patterns can work
+!*/
+
+# Allow BBO-function notebooks at repo root
+!BBO-function*.ipynb
