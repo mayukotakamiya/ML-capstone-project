@@ -13,6 +13,9 @@ No analytical gradients
 Noisy or stochastic outputs
 This capstone strengthens my ability to make data-driven decisions under uncertainty, a skill directly applicable to ML engineering, research and applied optimisation tasks.
 
+You can find the datasheet and model card from here:
+Datasheet: [Datasheet.md]([https://github.com/mayukotakamiya/ML-capstone-project/blob/main/Datasheet](https://github.com/mayukotakamiya/ML-capstone-project/blob/f66298c7f13d96490e588b709530403890e3e19e/Datasheet).
+Model card: [Model_card.md](https://github.com/mayukotakamiya/ML-capstone-project/blob/f66298c7f13d96490e588b709530403890e3e19e/Model_card).
 2. Inputs and Outputs
 
 Each function receives an input vector, based on the initial input data and output data. High-level summary of each BBO function was provided in advance. Each query returns a single scalar value as an output. The new input data point and new output data point will be appended to the existing input data and output data for a next query. 
