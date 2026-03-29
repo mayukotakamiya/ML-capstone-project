@@ -1,0 +1,144 @@
+## 1. Overview
+
+**Model name:** Adaptive Interpretable Black-Box Optimisation (AIBBO)
+**Type:** Sequential optimisation strategy with surrogate modelling
+**Version:** v1.0 (Rounds 1–10)
+
+This approach is a **hybrid optimisation framework** combining:
+
+* heuristic search
+* surrogate models (linear regression, SVMs, neural networks)
+* exploration–exploitation balancing
+* interpretability-driven refinement
+
+It evolves iteratively as more data becomes available.
+
+---
+
+## 2. Intended Use
+
+### Suitable tasks
+
+* Black-box optimisation with **limited query budgets**
+* Hyperparameter tuning in machine learning models
+* Experimental design (e.g. drug discovery, engineering systems)
+* Sequential decision-making under uncertainty
+
+### Not suitable for
+
+* Problems requiring **guaranteed global optimality**
+* Large-scale datasets where batch optimisation is preferable
+* Highly noisy systems where local observations are unreliable
+* Safety-critical applications without additional validation
+
+---
+
+## 3. Details: Strategy Evolution (Rounds 1–10)
+
+### Early rounds (1–2): Exploration baseline
+
+* Random sampling and simple heuristics
+* Distance-based exploration to cover search space
+* Goal: build initial understanding of function behaviour
+
+### Mid rounds (3–5): Surrogate modelling
+
+* Introduced **linear regression and SVMs**
+* Began using **neural networks** for non-linear approximation
+* Balanced exploration vs exploitation using scoring functions
+* Shift toward **model-guided candidate selection**
+
+### Intermediate rounds (6–7): Refinement and tuning
+
+* Improved surrogate models (regularisation, architecture tuning)
+* Introduced **hyperparameter tuning strategies**
+* Identified **feature importance and influential dimensions**
+* Began reducing unnecessary exploration in lower dimensions
+
+### Advanced rounds (8–9): Scaling and emergence
+
+* Applied concepts from **LLM decoding (temperature, top-k)**
+* Adjusted exploration based on **dimensionality and uncertainty**
+* Recognised **emergent structure** in lower-dimensional functions
+* Maintained exploration in high-dimensional settings
+
+### Final round (10): Interpretability-focused optimisation
+
+* Shifted to **transparent models (ridge regression)**
+* Used **feature importance and local reasoning**
+* Applied **axis-wise and region-based refinement**
+* Prioritised explainability alongside performance
+
+---
+
+## 4. Performance
+
+### Metrics used
+
+* **Best observed value** (maximisation objective)
+* **Improvement per query**
+* **Output range and variance**
+* **Stability across rounds**
+
+### Observations across functions
+
+* **Low-dimensional (F1–F2):**
+
+  * Rapid convergence
+  * Strong improvements early, diminishing returns later
+
+* **Mid-dimensional (F3–F5):**
+
+  * Consistent improvements with surrogate guidance
+  * Function 5 (unimodal) showed strong convergence
+
+* **High-dimensional (F6–F8):**
+
+  * Slower, less stable improvements
+  * Greater reliance on exploration and model regularisation
+
+Overall, the approach achieved **steady improvement across all functions**, with best performance in lower-dimensional and structured settings.
+
+---
+
+## 5. Assumptions and Limitations
+
+### Key assumptions
+
+* The function is **smooth enough** for local improvements to be meaningful
+* Past observations are **informative of nearby regions**
+* Surrogate models can approximate underlying structure
+
+### Limitations
+
+* **Data sparsity:** limited queries restrict model accuracy
+* **Local optima risk:** strong exploitation may miss global maxima
+* **Model bias:** simple models may miss complex interactions
+* **High-dimensional challenges:** performance degrades as dimensionality increases
+
+### Failure modes
+
+* Overfitting to noisy observations
+* Premature convergence to suboptimal regions
+* Misleading feature importance in non-linear settings
+
+---
+
+## 6. Ethical Considerations
+
+Transparency was a central design principle in this approach.
+
+* Use of **interpretable models (e.g. ridge regression)** enables clear reasoning
+* Each query decision is **traceable and explainable**
+* The strategy avoids reliance on opaque black-box models where possible
+
+This supports:
+
+* **Reproducibility:** others can follow and replicate the methodology
+* **Accountability:** decisions can be audited and justified
+* **Adaptability:** the approach can be transferred to real-world optimisation tasks
+
+However, care must be taken when applying this approach in real-world contexts:
+
+* Results may not generalise due to limited data
+* Additional validation is required for high-stakes applications
