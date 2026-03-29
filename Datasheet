@@ -1,0 +1,139 @@
+
+
+## 1. Motivation
+
+This dataset was created as part of a **black-box optimisation (BBO) capstone project**, where the objective is to iteratively query unknown functions and maximise their outputs under a limited query budget.
+
+The dataset supports tasks such as:
+
+* **Sequential decision-making under uncertainty**
+* **Surrogate modelling (e.g. regression, neural networks)**
+* **Exploration vs exploitation trade-offs**
+* **Hyperparameter tuning and optimisation strategies**
+
+This setting reflects real-world problems where:
+
+* the objective function is unknown or expensive to evaluate
+* only limited observations are available
+* optimisation must be efficient and adaptive
+
+---
+
+## 2. Composition
+
+The dataset consists of observations collected across **eight separate black-box functions**:
+
+* **Function 1–2:** 2D inputs
+* **Function 3:** 3D inputs
+* **Function 4–5:** 4D inputs
+* **Function 6:** 5D inputs
+* **Function 7:** 6D inputs
+* **Function 8:** 8D inputs
+
+### Format
+
+Each function contains:
+
+* `inputs.npy` → shape `(n, d)`
+* `outputs.npy` → shape `(n,)`
+
+Where:
+
+* `n` = number of queries (grows each round)
+* `d` = dimensionality of the function
+
+### Size
+
+* Initial dataset: **10 samples per function**
+* Final dataset: up to **~20+ samples per function**
+* Total observations grow incrementally over multiple rounds
+
+### Gaps and limitations
+
+* Data is **sparsely sampled**, especially in higher dimensions
+* Sampling is **non-uniform**, biased toward high-performing regions
+* Some regions of the search space remain **unexplored**
+
+---
+
+## 3. Collection Process
+
+The dataset was generated through an **iterative querying process** over multiple rounds.
+
+### Process
+
+1. Initial random or provided samples
+2. Sequential queries submitted via a portal
+3. Outputs returned by hidden black-box functions
+4. Dataset updated after each round
+
+### Strategy evolution
+
+Across rounds, multiple strategies were used:
+
+* **Early rounds:** random sampling and simple heuristics
+* **Mid rounds:** surrogate models (linear regression, SVMs, neural networks)
+* **Later rounds:**
+
+  * exploration–exploitation balancing
+  * feature importance and interpretability
+  * scaling and emergence-based reasoning
+
+### Time frame
+
+* Data collected progressively over **~10 optimisation rounds**
+* Each round adds one new data point per function
+
+---
+
+## 4. Preprocessing and Uses
+
+### Preprocessing
+
+* Inputs are assumed to lie within **[0, 1] bounds**
+* Standardisation or scaling applied when training surrogate models
+* No modification of raw outputs (except interpretation as maximisation)
+
+### Intended uses
+
+* Black-box optimisation research and experimentation
+* Surrogate modelling and active learning
+* Teaching optimisation strategies under limited data
+* Comparing exploration vs exploitation techniques
+
+### Inappropriate uses
+
+* Not suitable for:
+
+  * benchmarking large-scale ML models (dataset is too small)
+  * drawing statistically robust conclusions
+  * real-world deployment without further validation
+
+---
+
+## 5. Distribution and Maintenance
+
+### Availability
+
+* Stored locally and/or in the project repository (e.g. GitHub)
+* Typically organised as:
+
+  ```
+  data/
+    function_1/
+    function_2/
+    ...
+    function_8/
+  ```
+
+### Terms of use
+
+* Intended for **educational and research purposes**
+* Data is derived from a controlled academic environment
+* No sensitive or personal data is included
+
+### Maintenance
+
+* Maintained by the project author (student)
+* Updated incrementally as new queries are added
+* Versioning recommended (e.g. `W1`, `W2`, … `W10`) to track evolution
